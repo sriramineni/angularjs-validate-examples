@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="C:\Users\kiran\Desktop\angularjsvalidations\validations.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.js"></script>
+<script type="text/javascript" src="C:\Users\kiran\Desktop\angularjsvalidations\validate.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <body>
+
+<div class="container" ng-app="app">
+    <h1>AngularJS validation and error handling</h1>
+    <!--Example 2 - built-in AngularJS validation tools-->
+    <form name="form2" class="panel panel-primary" novalidate
+          ng-controller="builtinValidationCtrl as $ctrl"
+          ng-submit="$ctrl.submit()">
+        <section class="panel-heading">
+            <h2 class="panel-title">Validation with built-in AngularJS tools</h2>
+        </section>
+        <section class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item">form $dirty = {{form2.$dirty}}</li>
+                <li class="list-group-item">form $valid = {{form2.$valid}}</li>
+                <li class="list-group-item">form $submitted = {{form2.$submitted}}</li>
+            </ul>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group"
+                         ng-class="{'has-error': form2.name.$touched && form2.name.$invalid}">
+                        <label for="name2">Name:</label>
+                        <input id="name2" name="name" type="text" class="form-control" placeholder="required, latin letters only"
+                               ng-model="$ctrl.name"
+                               required
+                               ng-pattern="/^[a-zA-Z]+$/">
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">name $touched = {{form2.name.$touched}}</li>
+                        <li class="list-group-item">name $dirty = {{form2.name.$dirty}}</li>
+                        <li class="list-group-item">name $valid = {{form2.name.$valid}}</li>
+                    </ul>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group"
+                         ng-class="{'has-error': form2.pass.$touched && form2.pass.$invalid}">
+                        <label for="pass2">Password:</label>
+                        <input id="pass2" name="pass" type="password" class="form-control" placeholder="required, longer than 4 chars"
+                               ng-model="$ctrl.pass"
+                               required
+                               ng-minlength="4">
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">password $touched = {{form2.pass.$touched}}</li>
+                        <li class="list-group-item">password $dirty = {{form2.pass.$dirty}}</li>
+                        <li class="list-group-item">password $valid = {{form2.pass.$valid}}</li>
+                    </ul>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    ng-disabled="form2.$invalid">
+                Submit
+            </button>
+        </section>
+    </form>
+    <!--Example 3 - custom validator directive-->
+    <form name="form3" class="panel panel-primary" novalidate
+          ng-controller="customValidatorCtrl as $ctrl"
+          ng-submit="$ctrl.submit()">
+        <section class="panel-heading">
+            <h2 class="panel-title">Validation with custom validator directive</h2>
+        </section>
+        <section class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group"
+                         ng-class="{'has-error': form3.name.$touched && form3.name.$invalid}">
+                        <label for="name3">Name:</label>
+                        <input id="name3" name="name" type="text" class="form-control" placeholder="required, all names except Barack and Donald"
+                               ng-model="$ctrl.name"
+                               required
+                               ng-pattern="/^[a-zA-Z]+$/"
+                               name-black-list>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    ng-disabled="form3.$invalid">
+                Submit
+            </button>
+        </section>
+    </form>
+    <!--Example 4 - one-occasion custom validation directive that takes verification function-->
+    <form name="form4" class="panel panel-primary" novalidate
+          ng-controller="oneOccasionFunctionDirectiveCtrl as $ctrl"
+          ng-submit="$ctrl.submit()">
+        <section class="panel-heading">
+            <h2 class="panel-title">One-occasion custom validation with directive that takes verification function</h2>
+        </section>
+        <section class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group"
+                         ng-class="{'has-error': form4.name.$touched && form4.name.$invalid}">
+                        <label for="name4">Name:</label>
+                        <input id="name4" name="name" type="text" class="form-control" placeholder="required, all names except Arnold and Sylvester"
+                               ng-model="$ctrl.name"
+                               required
+                               ng-pattern="/^[a-zA-Z]+$/"
+                               custom-validation-function="$ctrl.validationFunc($value)">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    ng-disabled="form4.$invalid">
+                Submit
+            </button>
+        </section>
+    </form>
+    <!--Example 5 - one-occasion custom validation with `ui-validate`-->
+    <form name="form5" class="panel panel-primary" novalidate
+          ng-controller="oneOccasionFunctionDirectiveCtrl as $ctrl"
+          ng-submit="$ctrl.submit()">
+        <section class="panel-heading">
+            <h2 class="panel-title">One-occasion validation with `ui-validate`</h2>
+        </section>
+        <section class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group"
+                         ng-class="{'has-error': form5.name.$touched && form5.name.$invalid}">
+                        <label for="name5">Name:</label>
+                        <input id="name5" name="name" type="text" class="form-control" placeholder="required, all names except Arnold and Sylvester"
+                               ng-model="$ctrl.name"
+                               required
+                               ng-pattern="/^[a-zA-Z]+$/"
+                               ui-validate="'$ctrl.validationFunc($value)'">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right"
+                    ng-disabled="form5.$invalid">
+                Submit
+            </button>
+        </section>
+    </form>
+    <!--Example 6 - handling back-end validation errors-->
+    <form name="$ctrl.form6" class="panel panel-primary" novalidate
+          server-validation
+          ng-controller="backendValidationCtrl as $ctrl"
+          ng-submit="$ctrl.submit()">
+        <section class="panel-heading">
+            <h2 class="panel-title">Handling back-end validation errors + `ng-messages`</h2>
+        </section>
+        <section class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group"
+                         ng-class="{'has-error': $ctrl.form6.name_field.$invalid && ($ctrl.form6.name_field.$touched || $ctrl.form6.$submitted) }">
+                        <label for="name6">Name:</label>
+                        <ng-messages role="alert"
+                                     ng-if="$ctrl.form6.name_field.$touched || $ctrl.form6.$submitted"
+                                     for="$ctrl.form6.name_field.$error">
+                            <span ng-message="serverError" class="label label-danger">{{$ctrl.serverErrorMessages.name_field[0]}}</span>
+                            <span ng-message="pattern" class="label label-danger">Please use letters only</span>
+                            <span ng-message="required" class="label label-danger">This field is equired</span>
+                        </ng-messages>
+                        <input id="name6" name="name_field" type="text" class="form-control" placeholder="required, back-end app accepts `Guido` name only"
+                               ng-model="$ctrl.name_field"
+                               required
+                               ng-pattern="/^[a-zA-Z]+$/">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">
+                Submit
+            </button>
+        </section>
+    </form>
+</div>
+</body>
+</html>
